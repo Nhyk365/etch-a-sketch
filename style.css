@@ -27,4 +27,5 @@ button {
 .square {
   min-height: 16px;
   aspect-ratio: 1/1;
+  border: 1px solid rgba(0, 0, 0, 0.017);
 }
