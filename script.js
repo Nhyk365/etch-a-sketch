@@ -3,7 +3,9 @@ let userGrid = 16;
 let gridScale;
 
 function colorChange(e) {
-  e.target.style.setProperty("background-color", "black");
+  let randomColor =
+    "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
+  e.target.style.setProperty("background-color", randomColor);
 }
 
 // set the base grid at 16x16 squares and add event listener to each one
