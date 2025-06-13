@@ -1,37 +1,36 @@
 const gridContainer = document.getElementById("container");
-let userHeight = 16;
-let userWidth = 16;
-
-// set the base grid at 16x16 squares
-// verify line 14-15 probably not needed, use square. to add attributes before append
-function looper() {
-  for (let i = 0; i < userHeight * userWidth; i++) {
-    //creates a number of divs selected from the user
-    const square = document.createElement("div");
-    square.setAttribute("id", `square${i}`);
-    square.setAttribute("class", "square");
-    gridContainer.appendChild(square);
-    const gridElements = document.querySelectorAll(".square");
-    Array.from(gridElements).forEach((element) => {
-      element.addEventListener("mouseover", colorChange);
-    });
-  }
-}
-looper();
+let userGrid = 16;
+let gridScale;
 
 function colorChange(e) {
   e.target.style.setProperty("background-color", "black");
 }
 
-/* adds an event listener to every grid div */
+// set the base grid at 16x16 squares and add event listener to each one
+// set gridScale to maintain correct ratio with different grid sizes
+function looper() {
+  for (let i = 0; i < userGrid ** 2; i++) {
+    //creates a number of divs selected from the user
+    const square = document.createElement("div");
+    square.setAttribute("id", `square${i}`);
+    square.setAttribute("class", "square");
+    square.addEventListener("mouseover", colorChange);
+    gridScale = 100 / userGrid;
+    square.style.setProperty("flex", `1 0 ${gridScale}%`);
+    gridContainer.appendChild(square);
+  }
+}
+looper();
 
 /* when button is clicked user is asked for grid dimension */
 const gridButton = document.getElementById("size-button");
 
 function setGridSize(e) {
-  userHeight = prompt("Choose the number of horizontal cells", 16);
-  userWidth = prompt("Choose the number of horizontal cells", 16);
-  document.querySelectorAll(".square").forEach((e) => e.remove());
+  userGrid = prompt("Choose your grid size (max 100):", 16);
+  if (userGrid == null) return;
+  if (userGrid > 100 || userGrid < 1) {
+    return alert("Size must be between 1 and 100!");
+  } else document.querySelectorAll(".square").forEach((e) => e.remove());
   looper();
 }
 gridButton.addEventListener("click", setGridSize);
