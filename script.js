@@ -6,9 +6,12 @@ function colorChange(e) {
   let randomColor =
     "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
   e.target.style.setProperty("background-color", randomColor);
-  /* .setStyle ("opacity", 0.1) need to find a way to sum 0.1 to opacity every mouse over
-  then substitute consol log function with the new one*/
-  e.target.addEventListener("mouseover", () => console.log(e));
+  e.target.style.setProperty("opacity", 0.1);
+  /* new event listener to darken opacity by 0.1 with every new mouseover until 1 */
+  e.target.addEventListener("mouseover", () => {
+    let currentOpacity = +e.target.style.getPropertyValue("opacity");
+    e.target.style.setProperty("opacity", Math.min(currentOpacity + 0.1, 1));
+  });
 }
 
 // set the base grid at 16x16 squares and add event listener to each one
